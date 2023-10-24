@@ -1,9 +1,10 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class FileHandler {
+public class FileHandler
+{
     private final String baseDirectory; // Base directory where all peer subdirectories are located
-
     public FileHandler(String baseDirectory) {
         this.baseDirectory = baseDirectory;
     }
@@ -50,4 +51,6 @@ public class FileHandler {
         }
         return false;
     }
+
+
 }

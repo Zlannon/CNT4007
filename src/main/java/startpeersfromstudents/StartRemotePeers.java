@@ -1,3 +1,4 @@
+/*
 package startpeersfromstudents;
 
 import java.io.BufferedReader;
@@ -53,14 +54,14 @@ public static void main(String[] args) {
 ArrayList<PeerInfo> peerList = new ArrayList<>();
 
 String ciseUser = "rvaz"; // change with your CISE username
-
+*/
 /**
 * Make sure the below peer hostnames and peerIDs match those in
 * PeerInfo.cfg in the remote CISE machines. Also make sure that the
 * peers which have the file initially have it under the 'peer_[peerID]'
 * folder.
 */
-
+/*
 peerList.add(new PeerInfo("1", "lin114-06.cise.ufl.edu"));
 peerList.add(new PeerInfo("2", "lin114-08.cise.ufl.edu"));
 peerList.add(new PeerInfo("3", "lin114-09.cise.ufl.edu"));
@@ -70,12 +71,14 @@ peerList.add(new PeerInfo("5", "lin114-05.cise.ufl.edu"));
 for (PeerInfo remotePeer : peerList) {
 try {
 JSch jsch = new JSch();
+*/
 /*
 * Give the path to your private key. Make sure your public key
 * is already within your remote CISE machine to ssh into it
 * without a password. Or you can use the corressponding method
 * of JSch which accepts a password.
 */
+/*
 jsch.addIdentity("C:\\Users\\vazra\\.ssh\\private", "");
 Session session = jsch.getSession(ciseUser, remotePeer.getHostName(), 22);
 Properties config = new Properties();
@@ -137,3 +140,4 @@ ex.printStackTrace();
 }
 
 }
+*/

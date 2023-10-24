@@ -13,7 +13,21 @@ public class Client {
 	String message;                //message send to the server
 	String MESSAGE;                //capitalized message read from the server
 
-	public void Client() {}
+	public void Client() throws Exception
+	{
+		//get info from peer cfg files
+		loadcfg getcfg = new loadcfg();
+		ArrayList<String[]> cfg = getcfg.readcfgfile(".\\src\\main\\java\\project_config_file_large\\PeerInfo.cfg");
+		//add peers to peer list
+		peerslist peer = new peerslist();
+		for(int i =0; i < cfg.size(); i++)
+		{
+			System.out.println(Arrays.toString(cfg.get(i)));
+			peer.addpeer(cfg.get(i));
+		}
+		//open a socket
+		//requestSocket = new Socket(peer.getpeerhostname())
+	}
 
 	void run()
 	{
@@ -95,9 +109,9 @@ public class Client {
 		}
 	}
 	//main method
-	public static void main(String args[])
-	{
+	public static void main(String args[]) throws Exception {
 		Client client = new Client();
+		client.Client();
 		client.run();
 	}
 
