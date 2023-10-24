@@ -32,7 +32,8 @@ public class Client {
 				//read a sentence from the standard input
 				message = bufferedReader.readLine();
 				//Send the sentence to the server
-				sendMessage(message);
+				// use the Message class to create a message object
+//				sendMessage(message);
 				//Receive the upperCase sentence from the server
 				MESSAGE = (String)in.readObject();
 				//show the message to the user
@@ -64,14 +65,12 @@ public class Client {
 		}
 	}
 	//send a message to the output stream
-	void sendMessage(String msg)
-	{
-		try{
-			//stream write the message
-			out.writeObject(msg);
+	void sendMessage(Message message) {
+		try {
+			// Serialize and send the message
+			out.writeObject(message);
 			out.flush();
-		}
-		catch(IOException ioException){
+		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}
 	}

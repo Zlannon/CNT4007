@@ -57,7 +57,8 @@ public class Server {
 					//Capitalize all letters in the message
 					MESSAGE = message.toUpperCase();
 					//send MESSAGE back to the client
-					sendMessage(MESSAGE);
+					// use the Message class to create a message object
+//					sendMessage(MESSAGE);
 				}
 			}
 			catch(ClassNotFoundException classnot){
@@ -81,14 +82,13 @@ public class Server {
 	}
 
 	//send a message to the output stream
-	public void sendMessage(String msg)
-	{
-		try{
-			out.writeObject(msg);
+	public void sendMessage(Message message) {
+		try {
+			// Serialize and send the message
+			out.writeObject(message);
 			out.flush();
-			System.out.println("Send message: " + msg + " to Client " + no);
-		}
-		catch(IOException ioException){
+			System.out.println("Send message: " + message.getType() + " to Client " + no);
+		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		}
 	}
