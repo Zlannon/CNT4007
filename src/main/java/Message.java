@@ -1,5 +1,4 @@
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 
 public class Message {
@@ -64,5 +63,31 @@ public class Message {
         }
 
         return new Message(MessageType.PIECE, outputStream.toByteArray());
+    }
+
+    //toByteArray() method
+    // Serialize the message to a byte array
+    public byte[] toByteArray() {
+        try {
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            ObjectOutputStream objStream = new ObjectOutputStream(byteStream);
+            objStream.writeObject(this);
+            return byteStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Deserialize a byte array into a Message object
+    public static Message fromByteArray(byte[] byteArray) {
+        try {
+            ByteArrayInputStream byteStream = new ByteArrayInputStream(byteArray);
+            ObjectInputStream objStream = new ObjectInputStream(byteStream);
+            return (Message) objStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

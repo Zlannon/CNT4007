@@ -4,6 +4,8 @@ import java.nio.*;
 import java.nio.channels.*;
 import java.util.*;
 
+
+
 public class Client {
 	Socket requestSocket;           //socket connect to the server
 	ObjectOutputStream out;         //stream write to the socket
@@ -23,7 +25,7 @@ public class Client {
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(requestSocket.getInputStream());
-			
+
 			//get Input from standard input
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 			while(true)
@@ -42,10 +44,10 @@ public class Client {
 		}
 		catch (ConnectException e) {
     			System.err.println("Connection refused. You need to initiate a server first.");
-		} 
+		}
 		catch ( ClassNotFoundException e ) {
             		System.err.println("Class not found");
-        	} 
+        	}
 		catch(UnknownHostException unknownHost){
 			System.err.println("You are trying to connect to an unknown host!");
 		}
@@ -64,6 +66,24 @@ public class Client {
 			}
 		}
 	}
+
+	void sendExampleMessage() throws IOException {
+		// Creating a message (i think this is the right way to do it)
+		Message messageToSend = new Message(MessageType.REQUEST, "Requesting piece 5".getBytes());
+
+		byte[] messageBytes = messageToSend.toByteArray();
+
+		out.write(messageBytes);
+		out.flush();
+
+	}
+
+    //to receive a message from the client on the server
+    //use the fromByteArray() method
+    //and then use the getMessage() method to get the message
+    //and then use the getContent() method to get the content of the message
+
+
 	//send a message to the output stream
 	void sendMessage(Message message) {
 		try {
