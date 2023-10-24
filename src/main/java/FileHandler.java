@@ -5,14 +5,18 @@ import java.io.IOException;
 public class FileHandler
 {
     private final String baseDirectory; // Base directory where all peer subdirectories are located
-    public FileHandler(String baseDirectory) {
+    public FileHandler(String baseDirectory)
+    {
         this.baseDirectory = baseDirectory;
     }
 
-    public void createPeerDirectory(int peerID) {
+    public void createPeerDirectory(int peerID)
+    {
         File peerDirectory = new File(baseDirectory + "peer_" + peerID);
-        if (!peerDirectory.exists()) {
-            if (peerDirectory.mkdirs()) {
+        if (!peerDirectory.exists())
+        {
+            if (peerDirectory.mkdirs())
+            {
                 System.out.println("Created directory for Peer " + peerID);
             } else {
                 System.err.println("Failed to create directory for Peer " + peerID);
@@ -20,9 +24,11 @@ public class FileHandler
         }
     }
 
-    public void saveFile(int peerID, String fileName, byte[] data) throws IOException {
+    public void saveFile(int peerID, String fileName, byte[] data) throws IOException
+    {
         File peerDirectory = new File(baseDirectory + "peer_" + peerID);
-        if (!peerDirectory.exists() || !peerDirectory.isDirectory()) {
+        if (!peerDirectory.exists() || !peerDirectory.isDirectory())
+        {
             System.err.println("Peer directory does not exist for Peer " + peerID);
             return;
         }
@@ -30,7 +36,8 @@ public class FileHandler
         File file = new File(peerDirectory, fileName);
         File parentDirectory = file.getParentFile();
 
-        if (!parentDirectory.exists() && !parentDirectory.mkdirs()) {
+        if (!parentDirectory.exists() && !parentDirectory.mkdirs())
+        {
             throw new IOException("Failed to create parent directory for file: " + fileName);
         }
 
@@ -38,7 +45,8 @@ public class FileHandler
         System.out.println("Saved file " + fileName + " for Peer " + peerID);
     }
 
-    public boolean doesPeerDirectoryExist(int peerID) {
+    public boolean doesPeerDirectoryExist(int peerID)
+    {
         File peerDirectory = new File(baseDirectory + "peer_" + peerID);
         return peerDirectory.exists() && peerDirectory.isDirectory();
     }
@@ -51,6 +59,4 @@ public class FileHandler
         }
         return false;
     }
-
-
 }

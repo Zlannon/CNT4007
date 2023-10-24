@@ -2,86 +2,171 @@ import java.net.*;
 import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 
-public class Client {
+public class Client
+{
 	Socket requestSocket;           //socket connect to the server
 	ObjectOutputStream out;         //stream write to the socket
  	ObjectInputStream in;          //stream read from the socket
 	String message;                //message send to the server
 	String MESSAGE;                //capitalized message read from the server
 
-	public void Client() throws Exception
+	public void startConnection(String ip, int port) throws IOException
 	{
-		//get info from peer cfg files
-		loadcfg getcfg = new loadcfg();
-		ArrayList<String[]> cfg = getcfg.readcfgfile(".\\src\\main\\java\\project_config_file_large\\PeerInfo.cfg");
-		//add peers to peer list
-		peerslist peer = new peerslist();
-		for(int i =0; i < cfg.size(); i++)
+		try
 		{
-			System.out.println(Arrays.toString(cfg.get(i)));
-			peer.addpeer(cfg.get(i));
-		}
-		//open a socket
-		//requestSocket = new Socket(peer.getpeerhostname())
-	}
-
-	void run()
-	{
-		try{
-			//create a socket to connect to the server
-			requestSocket = new Socket("localhost", 8000);
-			System.out.println("Connected to localhost in port 8000");
-			//initialize inputStream and outputStream
+			requestSocket = new Socket(ip, port);
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(requestSocket.getInputStream());
-
-			//get Input from standard input
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-			while(true)
+			boolean handshakeComplete = false;
+			String handshakeMsg = "";
+			try
 			{
-				System.out.print("Hello, please input a sentence: ");
-				//read a sentence from the standard input
-				message = bufferedReader.readLine();
-				//Send the sentence to the server
-				// use the Message class to create a message object
-//				sendMessage(message);
-				//Receive the upperCase sentence from the server
-				MESSAGE = (String)in.readObject();
-				//show the message to the user
-				System.out.println("Receive message: " + MESSAGE);
+				sendHandshake();
+				while (!handshakeComplete)
+				{
+					handshakeMsg = (String) in.readObject();
+
+					System.out.println(handshakeMsg);
+
+					if (!handshakeMsg.isEmpty())
+					{
+						handshakeComplete = Objects.equals(handshakeMsg.substring(0, 28), "P2PFILESHARINGPROJ0000000000");
+					}
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			} catch (ClassNotFoundException e)
+			{
+				throw new RuntimeException(e);
 			}
 		}
-		catch (ConnectException e) {
-    			System.err.println("Connection refused. You need to initiate a server first.");
+		catch (ConnectException e)
+		{
+			System.err.println("Connection refused. You need to initiate a server first.");
 		}
-		catch ( ClassNotFoundException e ) {
-            		System.err.println("Class not found");
-        	}
-		catch(UnknownHostException unknownHost){
+		catch(UnknownHostException unknownHost)
+		{
 			System.err.println("You are trying to connect to an unknown host!");
 		}
 		catch(IOException ioException){
 			ioException.printStackTrace();
 		}
-		finally{
-			//Close connections
-			try{
+		finally
+		{
+			try
+			{
 				in.close();
 				out.close();
 				requestSocket.close();
 			}
-			catch(IOException ioException){
+			catch(IOException ioException)
+			{
 				ioException.printStackTrace();
 			}
 		}
 	}
 
-	void sendExampleMessage() throws IOException {
+	public void Client() throws Exception
+	{
+		//get info from peer cfg files
+		Dictionary<String, String[]> peerInfo = new Hashtable<>();
+		loadcfg getcfg = new loadcfg();
+		peerInfo = getcfg.readcfgfile(".\\src\\main\\java\\project_config_file_large\\PeerInfo.cfg");
+		//add peers to peer list
+		peerslist peerobject = new peerslist();
+		//create new peers list
+		ArrayList<peerslist.peer> peerlistarray = new ArrayList<peerslist.peer>(0);
+		for(int i =0; i < peerInfo.size(); i++)
+		{
+			System.out.println(Arrays.toString(peerInfo.get(i)));
+			peerobject.addpeer(peerInfo.get(i));
+		}
+		peerlistarray = peerobject.getpeerslist();
+		//for(int i =0; i < peerlistarray.size(); i++)
+		//{
+			//open a socket
+			try
+			{
+				//requestSocket = new Socket(peerlistarray.get(i).getpeerhostname(), peerlistarray.get(i).getpeerlisteningport());
+				requestSocket = new Socket("localhost", 8000);
+			}
+			catch(Exception e)
+			{
+				System.out.println("could not create tcp socket on port: " + 8000);
+			}
+		//}
+	}
+
+	void run()
+	{
+		try
+		{
+			requestSocket = new Socket("localhost", 8000);
+			out = new ObjectOutputStream(requestSocket.getOutputStream());
+			out.flush();
+			in = new ObjectInputStream(requestSocket.getInputStream());
+			boolean handshakeComplete = false;
+			String handshakeMsg = "";
+			try
+			{
+				sendHandshake();
+				while (!handshakeComplete)
+				{
+					handshakeMsg = (String) in.readObject();
+
+					System.out.println(handshakeMsg);
+
+					if (!handshakeMsg.isEmpty())
+					{
+						handshakeComplete = Objects.equals(handshakeMsg.substring(0, 28), "P2PFILESHARINGPROJ0000000000");
+					}
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			} catch (ClassNotFoundException e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		catch (ConnectException e)
+		{
+			System.err.println("Connection refused. You need to initiate a server first.");
+		}
+		catch(UnknownHostException unknownHost)
+		{
+			System.err.println("You are trying to connect to an unknown host!");
+		}
+		catch(IOException ioException){
+			ioException.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				in.close();
+				out.close();
+				requestSocket.close();
+			}
+			catch(IOException ioException)
+			{
+				ioException.printStackTrace();
+			}
+		}
+	}
+
+	void sendExampleMessage() throws IOException
+	{
 		// Creating a message (i think this is the right way to do it)
 		Message messageToSend = new Message(MessageType.REQUEST, "Requesting piece 5".getBytes());
 
@@ -97,21 +182,32 @@ public class Client {
     //and then use the getMessage() method to get the message
     //and then use the getContent() method to get the content of the message
 
+	void sendHandshake() throws IOException
+	{
+		String msg = "P2PFILESHARINGPROJ0000000000";
+		out.writeObject(msg);
+		out.flush();
+	}
 
 	//send a message to the output stream
-	void sendMessage(Message message) {
-		try {
+	void sendMessage(Message message)
+	{
+		try
+		{
 			// Serialize and send the message
 			out.writeObject(message);
 			out.flush();
-		} catch (IOException ioException) {
+		} catch (IOException ioException)
+		{
 			ioException.printStackTrace();
 		}
 	}
+
 	//main method
-	public static void main(String args[]) throws Exception {
+	public static void main(String args[]) throws Exception
+	{
 		Client client = new Client();
-		client.Client();
+		//client.Client();
 		client.run();
 	}
 
