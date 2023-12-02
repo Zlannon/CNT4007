@@ -1,126 +1,82 @@
+import java.util.*;
 import java.io.*;
-import java.nio.ByteBuffer;
+import java.nio.*;
 
-public class Message
-{
-    private MessageType type;
-    private byte[] payload;
+public class Message {
+    private int messageLength;
+    private char messageType;
+    private byte[] messagePayload;
 
-    public Message(MessageType type, byte[] payload)
-    {
-        this.type = type;
-        this.payload = payload;
+    public Message() {
+
     }
 
-    public MessageType getType()
-    {
-        return type;
+    public Message(char messageType) {
+        this.messageType = messageType;
+        this.messageLength = 1;
+        this.messagePayload = new byte[0];
     }
 
-    public byte[] getPayload()
-    {
-        return payload;
+    public Message(char messageType, byte[] messagePayload) {
+        this.messageType = messageType;
+        this.messagePayload = messagePayload;
+        this.messageLength = this.messagePayload.length + 1;
     }
 
-    public static Message createChokeMessage()
-    {
-        return new Message(MessageType.CHOKE, new byte[0]);
-    }
-
-    public static Message createUnchokeMessage()
-    {
-        return new Message(MessageType.UNCHOKE, new byte[0]);
-    }
-
-    public static Message createInterestedMessage()
-    {
-        return new Message(MessageType.INTERESTED, new byte[0]);
-    }
-
-    public static Message createNotInterestedMessage()
-    {
-        return new Message(MessageType.NOT_INTERESTED, new byte[0]);
-    }
-
-    public static Message createHaveMessage(int pieceIndex)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(4);
-        buffer.putInt(pieceIndex);
-        return new Message(MessageType.HAVE, buffer.array());
-    }
-
-    public static Message createBitfieldMessage(byte[] bitfield)
-    {
-        return new Message(MessageType.BITFIELD, bitfield);
-    }
-
-    public static Message createRequestMessage(int pieceIndex)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(4);
-        buffer.putInt(pieceIndex);
-        return new Message(MessageType.REQUEST, buffer.array());
-    }
-
-    public static Message createPieceMessage(int pieceIndex, byte[] pieceData)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(4);
-        buffer.putInt(pieceIndex);
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    public byte[] buildMessage() {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
-            outputStream.write(buffer.array());
-            outputStream.write(pieceData);
-        } catch (IOException e) {
+            byte[] bytes = ByteBuffer.allocate(4).putInt(this.messageLength).array();
+            stream.write(bytes);
+            stream.write((byte) this.messageType);
+            stream.write(this.messagePayload);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return new Message(MessageType.PIECE, outputStream.toByteArray());
-    }
-    public ByteArrayOutputStream createhandshakemessage(int peerid)
-    {
-        ByteBuffer buffer = ByteBuffer.allocate(32);
-        String handshakerheader = "P2PFILESHARINGPROJ";
-        String zerobytes = "0000000000";
-        byte[] zerofield = zerobytes.getBytes();
-        byte[] header = handshakerheader.getBytes();
-        buffer.put(header);
-        buffer.put(zerofield);
-        buffer.putInt(peerid);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try
-        {
-            outputStream.write(buffer.array());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return outputStream;
-    }
-    //toByteArray() method
-    // Serialize the message to a byte array
-    public byte[] toByteArray()
-    {
-        try {
-            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-            ObjectOutputStream objStream = new ObjectOutputStream(byteStream);
-            objStream.writeObject(this);
-            return byteStream.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return stream.toByteArray();
     }
 
-    // Deserialize a byte array into a Message object
-    public static Message fromByteArray(byte[] byteArray)
-    {
-        try {
-            ByteArrayInputStream byteStream = new ByteArrayInputStream(byteArray);
-            ObjectInputStream objStream = new ObjectInputStream(byteStream);
-            return (Message) objStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
+    public void readMessage(int len, byte[] message) {
+        this.messageLength = len;
+        this.messageType = getMessageType(message, 0);
+        this.messagePayload = getPayload(message, 1);
+    }
+
+    public int getIntFromByteArray(byte[] message, int start) {
+        byte[] len = new byte[4];
+        for (int i = 0; i < 4; i++) {
+            len[i] = message[i + start];
         }
+        ByteBuffer byteBuffer = ByteBuffer.wrap(len);
+        return byteBuffer.getInt();
+    }
+
+    public char getMessageType(byte[] message, int index) {
+        return (char) message[index];
+    }
+
+    public byte[] getPayload(byte[] message, int index) {
+        byte[] response = new byte[this.messageLength - 1];
+        System.arraycopy(message, index, response, 0, this.messageLength - 1);
+        return response;
+    }
+
+    public BitSet getBitFieldMessage() {
+        BitSet bits = new BitSet();
+        bits = BitSet.valueOf(this.messagePayload);
+        return bits;
+    }
+
+    public int getPieceIndexFromPayload() {
+        return getIntFromByteArray(this.messagePayload, 0);
+    }
+
+    public byte[] getPieceFromPayload() {
+        int size = this.messageLength - 5;
+        byte[] piece = new byte[size];
+        for (int i = 0; i < size; i++) {
+            piece[i] = this.messagePayload[i + 4];
+        }
+        return piece;
     }
 }
