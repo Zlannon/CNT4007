@@ -18,6 +18,7 @@ public class Message {
     }
 
     public Message(char messageType, byte[] messagePayload) {
+        // have, bitfield
         this.messageType = messageType;
         this.messagePayload = messagePayload;
         this.messageLength = this.messagePayload.length + 1;
@@ -26,6 +27,7 @@ public class Message {
     public byte[] buildMessage() {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
+            // write the length of the message
             byte[] bytes = ByteBuffer.allocate(4).putInt(this.messageLength).array();
             stream.write(bytes);
             stream.write((byte) this.messageType);
@@ -37,12 +39,14 @@ public class Message {
     }
 
     public void readMessage(int len, byte[] message) {
+        // read the message
         this.messageLength = len;
         this.messageType = getMessageType(message, 0);
         this.messagePayload = getPayload(message, 1);
     }
 
     public int getIntFromByteArray(byte[] message, int start) {
+        // get the integer from the byte array
         byte[] len = new byte[4];
         for (int i = 0; i < 4; i++) {
             len[i] = message[i + start];
@@ -56,12 +60,14 @@ public class Message {
     }
 
     public byte[] getPayload(byte[] message, int index) {
+        // get the payload from the byte array
         byte[] response = new byte[this.messageLength - 1];
         System.arraycopy(message, index, response, 0, this.messageLength - 1);
         return response;
     }
 
     public BitSet getBitFieldMessage() {
+        // get the bitfield message
         BitSet bits = new BitSet();
         bits = BitSet.valueOf(this.messagePayload);
         return bits;
@@ -72,6 +78,7 @@ public class Message {
     }
 
     public byte[] getPieceFromPayload() {
+        // get the piece from the payload
         int size = this.messageLength - 5;
         byte[] piece = new byte[size];
         for (int i = 0; i < size; i++) {

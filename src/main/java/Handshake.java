@@ -15,8 +15,10 @@ public class Handshake {
     }
 
     public byte[] buildHandShake() {
+        // build the handshake message
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
+            // write the length of the message
             stream.write(this.header.getBytes(StandardCharsets.UTF_8));
             stream.write(new byte[10]);
             stream.write(this.peerID.getBytes(StandardCharsets.UTF_8));
@@ -28,6 +30,7 @@ public class Handshake {
     }
 
     public void readHandShake(byte[] message){
+        // read the handshake message
         String msg = new String(message,StandardCharsets.UTF_8);
         this.peerID = msg.substring(28,32);
     }

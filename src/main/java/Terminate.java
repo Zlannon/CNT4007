@@ -7,6 +7,7 @@ public class Terminate implements Runnable {
     private ScheduledExecutorService scheduler = null;
 
     Terminate(Peer peer) {
+
         this.peer = peer;
         this.scheduler = Executors.newScheduledThreadPool(1);
     }
