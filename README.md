@@ -17,7 +17,7 @@ C) Contributions of each team member
  - This project was made together over several meetings using discord and code with me.
 
 D) Youtube Video Link:
- - https://clipchamp.com/watch/oAAFH9dLuUU
+ - https://youtu.be/K8-Ejcx-2K4
 
 E) What you were able to achieve and what you were not
  - Our group was able to fully complete the project
