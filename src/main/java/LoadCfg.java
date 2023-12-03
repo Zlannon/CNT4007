@@ -22,11 +22,14 @@ public class LoadCfg {
 
     public void loadCommonFile() {
         try {
+            // Read the common config file
             FileReader fobj = new FileReader("Common.cfg");
             Scanner fReader = new Scanner(fobj);
+            // Read the file line by line
             while (fReader.hasNextLine()) {
                 String line = fReader.nextLine();
                 String[] temp = line.split(" ");
+                // Store the values in the appropriate variables
                 if (temp[0].equals("numPreferredNeighbors")) {
                     this.numPreferredNeighbors = Integer.parseInt(temp[1]);
                 } else if (temp[0].equals("UnchokingInterval")) {
@@ -48,14 +51,18 @@ public class LoadCfg {
         }
     }
 
+    // Load the peer info config file
     public void loadConfigFile()
     {
         String line;
         BufferedReader in;
         try {
             in = new BufferedReader(new FileReader("PeerInfo.cfg"));
+            // Read the file line by line
             while((line = in.readLine()) != null) {
+                // Split the line by whitespace
                 String[] tokens = line.split("\\s+");
+                // Store the values in the appropriate variables
                 this.peerInfoMap.put(tokens[0],new PeerInfo(tokens[0], tokens[1], tokens[2], tokens[3]));
                 this.peerList.add(tokens[0]);
             }
@@ -66,14 +73,17 @@ public class LoadCfg {
         }
     }
 
+    // Get the peer info for a specific peer
     public PeerInfo getPeerConfig(String peerID){
         return this.peerInfoMap.get(peerID);
     }
 
+    // Get the peer info map
     public HashMap<String, PeerInfo> getPeerInfoMap(){
         return this.peerInfoMap;
     }
 
+    // Get the peer list
     public ArrayList<String> getPeerList(){
         return this.peerList;
     }
