@@ -23,12 +23,19 @@ public class OptUnchoke implements Runnable {
 
     public void run() {
         try {
+            //get optimistically unchoked peer
             String optUnchokedPeer = this.peer.getOptUnchokedPeer();
+            //get the interested peer list
             List<String> interestedList = new ArrayList<>(this.peer.getInterestedList());
+            //remove the opt unchoked peer from interested list
             interestedList.remove(optUnchokedPeer);
+            //get the number of interested peers
             int size = interestedList.size();
+            //if iterested peers exist
             if (size > 0) {
+                //get a random peer
                 String currentPeer = interestedList.get(rand.nextInt(size));
+                //while peer is in the unchoked list, remove it from interested and grab a new peer
                 while (this.peer.getUnchokedList().contains(currentPeer)) {
                     interestedList.remove(currentPeer);
                     size = size - 1;
@@ -39,23 +46,35 @@ public class OptUnchoke implements Runnable {
                         break;
                     }
                 }
+                //set the opt unchoked peer
                 this.peer.setOptimisticUnchokedPeer(currentPeer);
                 if(currentPeer != null) {
+                    //get the handler for the selected peer
                     PeerHandler currentHandler = this.peer.getPeerHandler(currentPeer);
+                    //send unchoke message
                     currentHandler.sendUnChokedMessage();
+                    //log the opt unchoked peer
                     this.peer.getLogger().logOptimisticUnchokedNeighbor(this.peer.getOptUnchokedPeer());
                 }
+                //check if peer is in unchoked list
                 if (optUnchokedPeer != null && !this.peer.getUnchokedList().contains(optUnchokedPeer)) {
+                    //if not send choke message
                     this.peer.getPeerHandler(optUnchokedPeer).sendChokedMessage();
                 }
             } else {
+                //get the opt unchoked peer
                 String currentOpt = this.peer.getOptUnchokedPeer();
+                //set unchoked peer to null
                 this.peer.setOptimisticUnchokedPeer(null);
+                //check if opt unchoked peer is in unchoked list
                 if (currentOpt != null && !this.peer.getUnchokedList().contains(currentOpt)) {
+                    //if not send choked message
                     PeerHandler currentHandler = this.peer.getPeerHandler(currentOpt);
                     currentHandler.sendChokedMessage();
                 }
+                //check if all peers are done
                 if(this.peer.checkAllDone()) {
+                    //stop everything
                     this.peer.stopAll();
                 }
             }
@@ -66,6 +85,7 @@ public class OptUnchoke implements Runnable {
     }
 
     public void stop() {
+        //stop scheduler
         this.scheduler.shutdownNow();
     }
 }

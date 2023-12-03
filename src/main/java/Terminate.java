@@ -18,8 +18,11 @@ public class Terminate implements Runnable {
 
     public void run() {
         try {
+            //check if the peer is done
             if(this.peer.checkDone()) {
+                //stop the threads
                 this.peer.stopThreads();
+                //stop the scheduler
                 this.stop();
             }
         }
@@ -29,6 +32,7 @@ public class Terminate implements Runnable {
     }
 
     public void stop() {
+        //stop the scheduler
         this.scheduler.shutdownNow();
     }
 }

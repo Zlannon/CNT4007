@@ -14,8 +14,11 @@ public class Server implements Runnable {
     public void run() {
         while (true) {
             try {
+                //accept connection
                 Socket neighbor = this.listener.accept();
+                //get handler
                 PeerHandler peerHandler = new PeerHandler(neighbor, this.peer);
+                //start thread
                 new Thread(peerHandler).start();
             }
             catch (SocketException e) {

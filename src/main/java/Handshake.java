@@ -20,7 +20,9 @@ public class Handshake {
         try {
             // write the length of the message
             stream.write(this.header.getBytes(StandardCharsets.UTF_8));
+            //write the zero bytes
             stream.write(new byte[10]);
+            //write the peerID
             stream.write(this.peerID.getBytes(StandardCharsets.UTF_8));
         }
         catch(Exception e) {
