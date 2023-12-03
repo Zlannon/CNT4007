@@ -5,31 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="296575c2-22e7-41fb-a4b2-466ffc7d6b1d" name="Changes" comment="project materials">
-      <change afterPath="$PROJECT_DIR$/src/main/java/PeerLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FileHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Logger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MessageType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PeerInfo.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PeerInfo.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/StartRemotePeers/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/StartRemotePeers/RemotePeerInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/StartRemotePeers/StartRemotePeers.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/StartRemotePeers/compileJava" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/loadcfg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/LoadCfg.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/peerProcess.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/peerslist.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project_config_file_large/1001/tree.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project_config_file_large/Common.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project_config_file_large/PeerInfo.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project_config_file_small/1001/thefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project_config_file_small/1006/thefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project_config_file_small/Common.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/project_config_file_small/PeerInfo.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/startpeersfromstudents/Set Up document for starting remote peers.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/startpeersfromstudents/StartRemotePeers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PeerLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PeerLogger.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,12 +23,7 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="untitled" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -81,20 +53,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zlann/Downloads/jsch-0.1.54.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.44827586&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/esfar/IdeaProjects/CNT4007",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.44827586",
+    "settings.editor.selected.configurable": "configurable.group.appearance",
+    "show.migrate.to.gradle.popup": "false",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="peerProcess" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="peerProcess" />
@@ -113,6 +89,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1695779364030</updated>
+      <workItem from="1701587653460" duration="304000" />
     </task>
     <task id="LOCAL-00001" summary="project materials">
       <created>1695779792049</created>
@@ -123,6 +100,9 @@
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
